@@ -1,39 +1,21 @@
 
-Blender Modularized Rigging Framework v0.01
-
+LINKS:
+    Wiki: http://code.google.com/p/bmrf/w/list
+    Homepage: http://code.google.com/p/bmrf/
+    Source: http://github.com/Leefmc/bmrf
 
 REQUIREMENTS:
     - Blender 2.46+
     - Python 2.5+
 
 INSTALLATION:
-    - 
+    - None, at the moment.
 
 USAGE:
-    - 
-
-FREQUENTLY ASKED QUESTIONS (FAQ):
-    Q -
-    A -
-
-DONATIONS:
-    - Although donations may be accepted in the future, for now if you want to
-    support the BMRF Project financially, please donate directly to the
-    Blender Institute.
-
-CREDITS:
-    - BMRF was originally a port of an XSI plugin developed by Lee Olayvar.
-    Credits, and special mentioning, are as follows:
-    
-    - Creator:
-        - Lee Olayvar
-    - Special Thanks:
-    
-    And of course, a big thanks goes out to the Blender programmers,
-    contributors, and community as a whole for making and supporting the
-    wonderful product we all know and love.
-
-
+    - Currently, basic usage is being implemented through running blender/gui.py
+    directly from within Blender. In the near future, as the framework develops,
+    other gui-less python scripts will develop to produce some standardized
+    testing methods, along with basic usage (basic humanoid rig, perhaps).
 
 REQUIRED DEVELOPMENT TOOLS:
     - epydoc 3.0:
@@ -47,9 +29,8 @@ REQUIRED DEVELOPMENT TOOLS:
     - Git:
         BMRF Uses Git & Github as the official Version Control System.
         
-        Git: 
+        Git: http://git.or.cz/
         Github: http://www.github.com
-
 
 SUPPORTED DEVELOPMENT TOOLS:
     - WingIDE 3.1:
