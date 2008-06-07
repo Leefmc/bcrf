@@ -1,0 +1,61 @@
+
+Blender Modularized Rigging Framework v0.01
+
+
+REQUIREMENTS:
+    - Blender 2.46+
+    - Python 2.5+
+
+INSTALLATION:
+    - 
+
+USAGE:
+    - 
+
+FREQUENTLY ASKED QUESTIONS (FAQ):
+    Q -
+    A -
+
+DONATIONS:
+    - Although donations may be accepted in the future, for now if you want to
+    support the BMRF Project financially, please donate directly to the
+    Blender Institute.
+
+CREDITS:
+    - BMRF was originally a port of an XSI plugin developed by Lee Olayvar.
+    Credits, and special mentioning, are as follows:
+    
+    - Creator:
+        - Lee Olayvar
+    - Special Thanks:
+    
+    And of course, a big thanks goes out to the Blender programmers,
+    contributors, and community as a whole for making and supporting the
+    wonderful product we all know and love.
+
+
+
+REQUIRED DEVELOPMENT TOOLS:
+    - epydoc 3.0:
+        BMRF code uses epydoc as its officially documentation generator. When
+        documenting, it is required that the proper epydoc format is used.
+        See http://epydoc.sourceforge.com for documentation.
+        
+        Note that you do not need to download epydoc if you do not want to
+        generate documentation. You do however, need to follow the epydoc
+        formatting rules so that others can generate documentation of your code.
+    - Git:
+        BMRF Uses Git & Github as the official Version Control System.
+        
+        Git: 
+        Github: http://www.github.com
+
+
+SUPPORTED DEVELOPMENT TOOLS:
+    - WingIDE 3.1:
+        Although not required, WingIDE has some debug options supplied in the
+        blender package. (eg: wingide-blender_gui.py)
+        To obtain a trial version, or use the free version of WingIDE,
+        visit http://www.wingware.com/downloads
+        
+        More IDEs will be supported in the near future.
