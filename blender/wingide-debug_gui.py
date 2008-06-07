@@ -9,7 +9,6 @@ import os
 import sys
 # related
 import Blender
-from Blender import Window
 # local
 
 # Edit your wingide path if needed
@@ -17,12 +16,10 @@ winghome = r'/usr/lib/wingide3.1'
 
 scriptpath = os.path.abspath(os.path.curdir)
 # Blender seems to initialize the module from an odd location,
-# this is a temp hack.
+# this is a temp hack. Change it to your needs.
 scriptpath = r'/home/lee/Programming/bmrf/src/blender'
-scriptfile = r'%s/gui.py' % scriptpath
 
-print 'Test path: ' + scriptpath
-print 'Test file: ' + scriptfile
+scriptfile = r'%s/gui.py' % scriptpath
 
 os.environ['WINGHOME'] = winghome
 if winghome not in sys.path:
@@ -32,7 +29,7 @@ import wingdbstub
 wingdbstub.debugger.StartDebug()
 
 def runfile(filename):
-    execfile(filename)
+    execfile(filename, globals())
 runfile(scriptfile)
 
 
