@@ -210,7 +210,6 @@ class MainGUI(object):
         if self.current_tab != 'xml':
             self.current_tab = 'xml'
             self.redraw_display()
-    
 
 # Create the GUI instance
 main_gui = MainGUI()
