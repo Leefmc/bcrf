@@ -18,13 +18,105 @@ class MainGUI(object):
     EVT_RIG_TAB = 1200
     EVT_XML_TAB = 1300
     
-    gui_width = 500
-    gui_height = 400
+    
+    # Generic Dimensions.
+    ## Keep in mind changes to these may impact more than you'd expect,
+    ## so be aware of what you're changing.
+    # A dict of the box edge coordinates, from the bottom-left up.
+    gui_border_locations = {
+        'left':3, # Left border at X:3pix
+        'right':400, # Right border at X:400px
+        'bottom':3, # Bottom border at Y:3pix
+        'top':500, # Top border at Y:0px
+    }
+    # Gui dimensions calculated from above.
+    gui_width = gui_border_locations['right'] - gui_border_locations['left']
+    gui_height = gui_border_locations['top'] - gui_border_locations['bottom']
+    
+    '''The tab that will be rendered, when L{self._gui} is called.'''
+    current_tab = 'guide'
+    
     
     def __init__(self):
         '''Constructor
         '''
         pass
+    
+    def _draw_guide_tab_gui(self):
+        '''Draw the GUI for the guide tab's contents.
+        
+        @important: Make sure only drawing code is within the drawing functions.
+        Blender seems to initialize the drawing function (L{self._gui}) many
+        times in one session, possibly whenever blender/this gui loses focus.
+        '''
+        pass
+    
+    def _draw_rig_tab_gui(self):
+        '''Draw the GUI for the rig tab's contents.
+        
+        @important: Make sure only drawing code is within the drawing functions.
+        Blender seems to initialize the drawing function (L{self._gui}) many
+        times in one session, possibly whenever blender/this gui loses focus.
+        '''
+        pass
+    
+    def _draw_stateless_gui(self):
+        '''Draw the stateless gui. ie, the one which is on every tab state.
+        
+        @important: Make sure only drawing code is within the drawing functions.
+        Blender seems to initialize the drawing function (L{self._gui}) many
+        times in one session, possibly whenever blender/this gui loses focus.
+        '''
+        button_height = 20
+        button_width = 100
+        
+        # Draw the buttons. Drawn in the order of the Event ID'S
+        Blender.Draw.PushButton(
+            'CloseGUI', self.EVT_CLOSEGUI_BTN,
+            self.gui_border_locations['left'],
+            self.gui_border_locations['bottom'], button_width, button_height)
+        Blender.Draw.PushButton(
+            'About', self.EVT_ABOUT_BTN,
+            button_width * 1 + self.gui_border_locations['left'],
+            self.gui_border_locations['bottom'], button_width, button_height)
+        Blender.Draw.PushButton(
+            'Help', self.EVT_HELP_BTN,
+            button_width * 2 + self.gui_border_locations['left'],
+            self.gui_border_locations['bottom'], button_width, button_height)
+        
+        tab_width = self.gui_width/3
+        Blender.Draw.PushButton(
+            'GUIDE', self.EVT_GUIDE_TAB,
+            self.gui_border_locations['left'] + (tab_width*0),
+            20 + self.gui_border_locations['bottom'],
+            tab_width, button_height)
+        Blender.Draw.PushButton(
+            'RIG', self.EVT_RIG_TAB,
+            self.gui_border_locations['left'] + (tab_width*1),
+            20 + self.gui_border_locations['bottom'],
+            tab_width, button_height)
+        Blender.Draw.PushButton(
+            'XML', self.EVT_XML_TAB,
+            self.gui_border_locations['left'] + (tab_width*2),
+            20 + self.gui_border_locations['bottom'],
+            tab_width, button_height)
+    
+    def _draw_xml_tab_gui(self):
+        '''Draw the GUI for the xml tab's contents.
+        
+        @important: Make sure only drawing code is within the drawing functions.
+        Blender seems to initialize the drawing function (L{self._gui}) many
+        times in one session, possibly whenever blender/this gui loses focus.
+        '''
+        pass
+    
+    ## Defined after the _draw's so it can reference them.
+    # Draw Tab Switch, responsible for calling the draw functions for each tab.
+    draw_tab_switch = {
+        'guide':_draw_guide_tab_gui,
+        'rig':_draw_rig_tab_gui,
+        'xml':_draw_xml_tab_gui,
+    }
     
     def _events(self, event_id):
         '''
@@ -41,56 +133,19 @@ class MainGUI(object):
             self.EVT_HELP_BTN:not_handled,
             
             self.EVT_GUIDE_TAB:self.guide_tab_clicked_event,
-            self.EVT_RIG_TAB:not_handled,
-            self.EVT_XML_TAB:not_handled,
+            self.EVT_RIG_TAB:self.rig_tab_clicked_event,
+            self.EVT_XML_TAB:self.xml_tab_clicked_event,
         }
         # Call the switch
         event_switch[event_id]()
     
     def _gui(self):
+        ''' Actually draw the GUIs, and decide which GUIs to draw.
         '''
-        '''
-        # A dict of the box edge coordinates
-        edge_locs = {
-            'left':3,
-            'right':0,
-            'top':0,
-            'bottom':3
-        }
-        
-        button_height = 20
-        button_width = 100
-        
-        # Draw the buttons. Drawn in the order of the Event ID'S
-        Blender.Draw.PushButton(
-            'CloseGUI', self.EVT_CLOSEGUI_BTN,
-            edge_locs['left'],
-            edge_locs['bottom'], button_width, button_height)
-        Blender.Draw.PushButton(
-            'About', self.EVT_ABOUT_BTN,
-            button_width * 1 + edge_locs['left'],
-            edge_locs['bottom'], button_width, button_height)
-        Blender.Draw.PushButton(
-            'Help', self.EVT_HELP_BTN,
-            button_width * 2 + edge_locs['left'],
-            edge_locs['bottom'], button_width, button_height)
-        
-        tab_width = self.gui_width/3
-        Blender.Draw.PushButton(
-            'GUIDE', self.EVT_GUIDE_TAB,
-            edge_locs['left'] + (tab_width*0),
-            20 + edge_locs['bottom'],
-            tab_width, button_height)
-        Blender.Draw.PushButton(
-            'RIG', self.EVT_GUIDE_TAB,
-            edge_locs['left'] + (tab_width*1),
-            20 + edge_locs['bottom'],
-            tab_width, button_height)
-        Blender.Draw.PushButton(
-            'XML', self.EVT_GUIDE_TAB,
-            edge_locs['left'] + (tab_width*2),
-            20 + edge_locs['bottom'],
-            tab_width, button_height)
+        # Draw the stateless
+        self._draw_stateless_gui()
+        # Draw the current tab.
+        self.draw_tab_switch[self.current_tab](self)
     
     def about_btn_clicked_event(self):
         '''Display the About Dialog.
@@ -124,19 +179,37 @@ class MainGUI(object):
         Blender.Draw.Exit()
     
     def display(self):
-        '''Display the GUI.
+        '''Display the GUI for the first time.
         '''
-        Blender.Draw.Register(self._gui, None, self._events)
+        # Currently, there is no difference in the first state and a redraw
+        # since all values have defaults. So simply call redraw.
+        self.redraw_display()
     
     def guide_tab_clicked_event(self):
         '''Display the Guide Tab.
         '''
-        print 'guide-tab-clicked'
+        if self.current_tab != 'guide':
+            self.current_tab = 'guide'
+            self.redraw_display()
+    
+    def redraw_display(self):
+        '''Redraw the display GUI.
+        '''
+        Blender.Draw.Register(self._gui, None, self._events)
+    
+    def rig_tab_clicked_event(self):
+        '''Display the Rig Tab.
+        '''
+        if self.current_tab != 'rig':
+            self.current_tab = 'rig'
+            self.redraw_display()
     
     def xml_tab_clicked_event(self):
         '''Display the XML Tab.
         '''
-        pass
+        if self.current_tab != 'xml':
+            self.current_tab = 'xml'
+            self.redraw_display()
     
 
 # Create the GUI instance
