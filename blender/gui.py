@@ -45,7 +45,7 @@ class MainGUI(object):
     def _draw_guide_tab_gui(self):
         '''Draw the GUI for the guide tab's contents.
         
-        @important: Make sure only drawing code is within the drawing functions.
+        @attention: Make sure only drawing code is within the drawing functions.
         Blender seems to initialize the drawing function (L{self._gui}) many
         times in one session, possibly whenever blender/this gui loses focus.
         '''
@@ -54,7 +54,7 @@ class MainGUI(object):
     def _draw_rig_tab_gui(self):
         '''Draw the GUI for the rig tab's contents.
         
-        @important: Make sure only drawing code is within the drawing functions.
+        @attention: Make sure only drawing code is within the drawing functions.
         Blender seems to initialize the drawing function (L{self._gui}) many
         times in one session, possibly whenever blender/this gui loses focus.
         '''
@@ -63,7 +63,7 @@ class MainGUI(object):
     def _draw_stateless_gui(self):
         '''Draw the stateless gui. ie, the one which is on every tab state.
         
-        @important: Make sure only drawing code is within the drawing functions.
+        @attention: Make sure only drawing code is within the drawing functions.
         Blender seems to initialize the drawing function (L{self._gui}) many
         times in one session, possibly whenever blender/this gui loses focus.
         '''
@@ -104,7 +104,7 @@ class MainGUI(object):
     def _draw_xml_tab_gui(self):
         '''Draw the GUI for the xml tab's contents.
         
-        @important: Make sure only drawing code is within the drawing functions.
+        @attention: Make sure only drawing code is within the drawing functions.
         Blender seems to initialize the drawing function (L{self._gui}) many
         times in one session, possibly whenever blender/this gui loses focus.
         '''
