@@ -9,7 +9,17 @@ REQUIREMENTS:
     - Python 2.5+
 
 INSTALLATION:
-    - None, at the moment.
+    - Copy the bmrf directory, found in the same directory as this README, and
+    place it inside your ~/.blender/scripts folder. Next, simply open Blender
+    and load the python script of your choice. Generally, you'll want the main
+    GUI interface to BMRF, in which case, find, load, and execute
+    ~/.blender/scripts/bmrf/gui.py.
+    
+    - Note to developers. An improved method for developer loading is requested,
+    but currently the method is to add in your
+    /usr/local/lib/python25/site-packages folder, a symbolic link to
+    /your/bmrf/developing/location/src/bmrf. This allows you to place your Git
+    managed clone where ever you like.
 
 USAGE:
     - Currently, basic usage is being implemented through running blender/gui.py

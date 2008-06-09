@@ -15,7 +15,6 @@ eg:
 
 @todo: Come up with a naming convention, and general design/layout scheme for
 rig modules so that a user has an easy time finding the module they need.
-
 '''
 
 # standard

@@ -4,6 +4,7 @@
 # related
 import Blender
 # local
+import bmrf.rig_lib
 
 class MainGUI(object):
     ''''''
@@ -17,7 +18,6 @@ class MainGUI(object):
     EVT_GUIDE_TAB = 1100
     EVT_RIG_TAB = 1200
     EVT_XML_TAB = 1300
-    
     
     # Generic Dimensions.
     ## Keep in mind changes to these may impact more than you'd expect,
