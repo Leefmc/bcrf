@@ -1,6 +1,7 @@
 
 LINKS:
     Wiki: http://code.google.com/p/bmrf/w/list
+    Issues: http://code.google.com/p/bmrf/issues/list
     Homepage: http://code.google.com/p/bmrf/
     Source: http://github.com/Leefmc/bmrf
 
@@ -15,7 +16,7 @@ INSTALLATION:
     GUI interface to BMRF, in which case, find, load, and execute
     ~/.blender/scripts/bmrf/gui.py.
     
-    - Note to developers. An improved method for developer loading is requested,
+    - Note to developers: An improved method for developer loading is requested,
     but currently the method is to add in your
     /usr/local/lib/python25/site-packages folder, a symbolic link to
     /your/bmrf/developing/location/src/bmrf. This allows you to place your Git
