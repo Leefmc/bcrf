@@ -18,9 +18,10 @@ class MainGUI(object):
     EVT_GUIDE_TAB = 1100
     EVT_RIG_TAB = 1200
     EVT_XML_TAB = 1300
-    EVT_MODULES_TAB = 1400
+    EVT_COMPONENTS_TAB = 1400
     
     EVT_GUIDETAB_GNAME = 1101
+    EVT_GUIDETAB_CREATE = 1102
     
     # Generic Dimensions.
     ## Keep in mind changes to these may impact more than you'd expect,
@@ -66,10 +67,19 @@ class MainGUI(object):
             'Guide Name: ', self.EVT_GUIDETAB_GNAME,
             self.gui_border_locations['left'], # X
             self.gui_border_locations['top'] - 40, # Y - Height+TabName
-            self.gui_width*0.75, 20, # Width, Height
+            self.gui_width*0.65, 20, # Width, Height
             'bcrf_guide', # Default
             25, # Max Char Length
-            'Test' # Tooltip
+            'Enter the name for the Guide you want to Create or Load.'# Tooltip
+        )
+        
+        # Create/Load
+        Blender.Draw.PushButton(
+            'Create/Load Guide', self.EVT_GUIDETAB_CREATE,
+            self.gui_border_locations['left'] + self.gui_width*0.65, # X
+            self.gui_border_locations['top'] - 40, # Y
+            self.gui_width*0.35, # Width
+            20 # Height
         )
     
     def _draw_modules_tab_gui(self):
@@ -82,7 +92,7 @@ class MainGUI(object):
         
         # Tab Name
         Blender.Draw.Label(
-            'TAB: MODULES',
+            'TAB: COMPONENTS',
             self.gui_border_locations['left'], # X, y, w, h)
             self.gui_border_locations['top'] - 20, # Y - LabelHeight
             self.gui_width, # Width
@@ -114,7 +124,7 @@ class MainGUI(object):
         times in one session, possibly whenever blender/this gui loses focus.
         '''
         button_height = 20
-        button_width = 100
+        button_width = 75
         
         # Draw the buttons. Drawn in the order of the Event ID'S
         Blender.Draw.PushButton(
@@ -137,7 +147,7 @@ class MainGUI(object):
             20 + self.gui_border_locations['bottom'],
             tab_width, button_height)
         Blender.Draw.PushButton(
-            'MODULES', self.EVT_MODULES_TAB,
+            'COMPONENTS', self.EVT_COMPONENTS_TAB,
             self.gui_border_locations['left'] + (tab_width*1),
             20 + self.gui_border_locations['bottom'],
             tab_width, button_height)
@@ -194,7 +204,7 @@ class MainGUI(object):
             self.EVT_HELP_BTN:not_handled,
             # Tab Buttons
             self.EVT_GUIDE_TAB:self.guide_tab_clicked_event,
-            self.EVT_MODULES_TAB:self.modules_tab_clicked_event,
+            self.EVT_COMPONENTS_TAB:self.modules_tab_clicked_event,
             self.EVT_RIG_TAB:self.rig_tab_clicked_event,
             self.EVT_XML_TAB:self.xml_tab_clicked_event,
             # Guide Tab Events
