@@ -4,7 +4,7 @@
 # related
 import Blender
 # local
-import bmrf.rig_lib
+import bcrf.rig_lib
 
 class MainGUI(object):
     ''''''
@@ -67,7 +67,7 @@ class MainGUI(object):
             self.gui_border_locations['left'], # X
             self.gui_border_locations['top'] - 40, # Y - Height+TabName
             self.gui_width*0.75, 20, # Width, Height
-            'bmrf_guide', # Default
+            'bcrf_guide', # Default
             25, # Max Char Length
             'Test' # Tooltip
         )
@@ -215,9 +215,9 @@ class MainGUI(object):
         '''Display the About Dialog.
         '''
         home_url = Blender.Draw.Create(
-            'http://code.google.com/p/bmrf/')
+            'http://code.google.com/p/bcrf/')
         source_url = Blender.Draw.Create(
-            'http://github.com/Leefmc/bmrf')
+            'http://github.com/Leefmc/bcrf')
         
         block = [
             'Home: ',
@@ -235,7 +235,7 @@ class MainGUI(object):
             'The Blender Foundation',
         ]
 
-        Blender.Draw.PupBlock('About BMRF', block)
+        Blender.Draw.PupBlock('About BCRF', block)
     
     def closegui_btn_clicked_event(self):
         '''Execute any saving prefs code, then Close the GUI.

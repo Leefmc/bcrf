@@ -1,25 +1,25 @@
 
 LINKS:
-    Wiki: http://code.google.com/p/bmrf/w/list
-    Issues: http://code.google.com/p/bmrf/issues/list
-    Homepage: http://code.google.com/p/bmrf/
-    Source: http://github.com/Leefmc/bmrf
+    Wiki: http://code.google.com/p/bcrf/w/list
+    Issues: http://code.google.com/p/bcrf/issues/list
+    Homepage: http://code.google.com/p/bcrf/
+    Source: http://github.com/Leefmc/bcrf
 
 REQUIREMENTS:
     - Blender 2.46+
     - Python 2.5+
 
 INSTALLATION:
-    - Copy the bmrf directory, found in the same directory as this README, and
+    - Copy the bcrf directory, found in the same directory as this README, and
     place it inside your ~/.blender/scripts folder. Next, simply open Blender
     and load the python script of your choice. Generally, you'll want the main
-    GUI interface to BMRF, in which case, find, load, and execute
-    ~/.blender/scripts/bmrf/gui.py.
+    GUI interface to BCRF, in which case, find, load, and execute
+    ~/.blender/scripts/bcrf/gui.py.
     
     - Note to developers: An improved method for developer loading is requested,
     but currently the method is to add in your
     /usr/local/lib/python25/site-packages folder, a symbolic link to
-    /your/bmrf/developing/location/src/bmrf. This allows you to place your Git
+    /your/bcrf/developing/location/src/bcrf. This allows you to place your Git
     managed clone where ever you like.
 
 USAGE:
@@ -30,7 +30,7 @@ USAGE:
 
 REQUIRED DEVELOPMENT TOOLS:
     - epydoc 3.0:
-        BMRF code uses epydoc as its officially documentation generator. When
+        BCRF code uses epydoc as its officially documentation generator. When
         documenting, it is required that the proper epydoc format is used.
         See http://epydoc.sourceforge.com for documentation.
         
@@ -38,7 +38,7 @@ REQUIRED DEVELOPMENT TOOLS:
         generate documentation. You do however, need to follow the epydoc
         formatting rules so that others can generate documentation of your code.
     - Git:
-        BMRF Uses Git & Github as the official Version Control System.
+        BCRF Uses Git & Github as the official Version Control System.
         
         Git: http://git.or.cz/
         Github: http://www.github.com
