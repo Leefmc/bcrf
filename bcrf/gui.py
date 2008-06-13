@@ -19,6 +19,7 @@ class MainGUI(object):
     EVT_RIG_TAB = 1200
     EVT_XML_TAB = 1300
     EVT_COMPONENTS_TAB = 1400
+    EVT_MENU_TAB = 1500
     
     EVT_GUIDETAB_GNAME = 1101
     EVT_GUIDETAB_CREATE = 1102
@@ -82,8 +83,8 @@ class MainGUI(object):
             20 # Height
         )
     
-    def _draw_modules_tab_gui(self):
-        '''Draw the GUI for the module tab's contents.
+    def _draw_components_tab_gui(self):
+        '''Draw the GUI for the compoent tab's contents.
         
         @attention: Make sure only drawing code is within the drawing functions.
         Blender seems to initialize the drawing function (L{self._gui}) many
@@ -93,6 +94,23 @@ class MainGUI(object):
         # Tab Name
         Blender.Draw.Label(
             'TAB: COMPONENTS',
+            self.gui_border_locations['left'], # X, y, w, h)
+            self.gui_border_locations['top'] - 20, # Y - LabelHeight
+            self.gui_width, # Width
+            20 # Height
+        )
+    
+    def _draw_menu_tab_gui(self):
+        '''Draw the GUI for the menu tab's contents.
+        
+        @attention: Make sure only drawing code is within the drawing functions.
+        Blender seems to initialize the drawing function (L{self._gui}) many
+        times in one session, possibly whenever blender/this gui loses focus.
+        '''
+        
+        # Tab Name
+        Blender.Draw.Label(
+            'TAB: MENU',
             self.gui_border_locations['left'], # X, y, w, h)
             self.gui_border_locations['top'] - 20, # Y - LabelHeight
             self.gui_width, # Width
@@ -140,27 +158,34 @@ class MainGUI(object):
             button_width * 2 + self.gui_border_locations['left'],
             self.gui_border_locations['bottom'], button_width, button_height)
         
-        tab_width = self.gui_width/4
+        tab_height = 15
+        tab_width = self.gui_width/5
+        tab_ypos = 22 + self.gui_border_locations['bottom']
         Blender.Draw.PushButton(
             'GUIDE', self.EVT_GUIDE_TAB,
             self.gui_border_locations['left'] + (tab_width*0),
-            20 + self.gui_border_locations['bottom'],
-            tab_width, button_height)
+            tab_ypos,
+            tab_width, tab_height)
         Blender.Draw.PushButton(
-            'COMPONENTS', self.EVT_COMPONENTS_TAB,
+            'COMPS', self.EVT_COMPONENTS_TAB,
             self.gui_border_locations['left'] + (tab_width*1),
-            20 + self.gui_border_locations['bottom'],
-            tab_width, button_height)
+            tab_ypos,
+            tab_width, tab_height)
+        Blender.Draw.PushButton(
+            'MENUS', self.EVT_MENU_TAB,
+            self.gui_border_locations['left'] + (tab_width*2),
+            tab_ypos,
+            tab_width, tab_height)
         Blender.Draw.PushButton(
             'RIG', self.EVT_RIG_TAB,
-            self.gui_border_locations['left'] + (tab_width*2),
-            20 + self.gui_border_locations['bottom'],
-            tab_width, button_height)
+            self.gui_border_locations['left'] + (tab_width*3),
+            tab_ypos,
+            tab_width, tab_height)
         Blender.Draw.PushButton(
             'XML', self.EVT_XML_TAB,
-            self.gui_border_locations['left'] + (tab_width*3),
-            20 + self.gui_border_locations['bottom'],
-            tab_width, button_height)
+            self.gui_border_locations['left'] + (tab_width*4),
+            tab_ypos,
+            tab_width, tab_height)
     
     def _draw_xml_tab_gui(self):
         '''Draw the GUI for the xml tab's contents.
@@ -183,7 +208,8 @@ class MainGUI(object):
     # Draw Tab Switch, responsible for calling the draw functions for each tab.
     draw_tab_switch = {
         'guide':_draw_guide_tab_gui,
-        'modules':_draw_modules_tab_gui,
+        'components':_draw_components_tab_gui,
+        'menu':_draw_menu_tab_gui,
         'rig':_draw_rig_tab_gui,
         'xml':_draw_xml_tab_gui,
     }
@@ -202,12 +228,16 @@ class MainGUI(object):
             self.EVT_CLOSEGUI_BTN:self.closegui_btn_clicked_event,
             self.EVT_ABOUT_BTN:self.about_btn_clicked_event,
             self.EVT_HELP_BTN:not_handled,
+            
             # Tab Buttons
             self.EVT_GUIDE_TAB:self.guide_tab_clicked_event,
-            self.EVT_COMPONENTS_TAB:self.modules_tab_clicked_event,
+            self.EVT_COMPONENTS_TAB:self.components_tab_clicked_event,
+            self.EVT_MENU_TAB:self.menu_tab_clicked_event,
             self.EVT_RIG_TAB:self.rig_tab_clicked_event,
             self.EVT_XML_TAB:self.xml_tab_clicked_event,
+            
             # Guide Tab Events
+            self.EVT_GUIDETAB_CREATE:not_handled,
             self.EVT_GUIDETAB_GNAME:not_handled,
         }
         # Call the switch
@@ -266,11 +296,18 @@ class MainGUI(object):
             self.current_tab = 'guide'
             self.redraw_display()
     
-    def modules_tab_clicked_event(self):
+    def components_tab_clicked_event(self):
         '''Display the Modules Tab.
         '''
-        if self.current_tab != 'modules':
-            self.current_tab = 'modules'
+        if self.current_tab != 'components':
+            self.current_tab = 'components'
+            self.redraw_display()
+    
+    def menu_tab_clicked_event(self):
+        '''Display the Rig Tab.
+        '''
+        if self.current_tab != 'menu':
+            self.current_tab = 'menu'
             self.redraw_display()
     
     def redraw_display(self):
