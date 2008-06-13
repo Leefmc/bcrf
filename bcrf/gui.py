@@ -68,7 +68,7 @@ class MainGUI(object):
             'Guide Name: ', self.EVT_GUIDETAB_GNAME,
             self.gui_border_locations['left'], # X
             self.gui_border_locations['top'] - 40, # Y - Height+TabName
-            self.gui_width*0.65, 20, # Width, Height
+            int(self.gui_width*0.65), 20, # Width, Height
             'bcrf_guide', # Default
             25, # Max Char Length
             'Enter the name for the Guide you want to Create or Load.'# Tooltip
@@ -77,9 +77,9 @@ class MainGUI(object):
         # Create/Load
         Blender.Draw.PushButton(
             'Create/Load Guide', self.EVT_GUIDETAB_CREATE,
-            self.gui_border_locations['left'] + self.gui_width*0.65, # X
+            int(self.gui_border_locations['left'] + self.gui_width*0.65), # X
             self.gui_border_locations['top'] - 40, # Y
-            self.gui_width*0.35, # Width
+            int(self.gui_width*0.35), # Width
             20 # Height
         )
     
