@@ -4,7 +4,7 @@
 # related
 import Blender.Scene
 # local
-import bcrf.rig_lib.exceptions
+import bcrf.bcrf_lib.exceptions
 
 
 def create_guide():
@@ -17,16 +17,22 @@ def create_guide():
 class Guide(object):
     '''This class represents an existing Guide in the scene.'''
 
-    def __init__(self):
-        '''Constructor
+    def __init__(self, guide_name):
+        '''
+        @param guide_name: The name of an existing Guide.
+        
+        @see: To create a new Guide, see L{create_guide}.
+        
+        @raise GuideNotFoundError: see L{GuideNotFoundError}
+        @raise NameNotGuideError: see L{NameNotGuideError}
         '''
         pass
 
-class GuideNotFoundError(bcrf.rig_lib.exceptions.BCRFRigLibError):
+class GuideNotFoundError(bcrf.bcrf_lib.exceptions.BCRFRigLibError):
     '''A guide was going to be loaded, but was not found.'''
     pass
 
-class NameNotGuideError(bcrf.rig_lib.exceptions.BCRFRigLibError):
+class NameNotGuideError(bcrf.bcrf_lib.exceptions.BCRFRigLibError):
     '''A name for a guide was given, but it is either not a BCRF Guide, or is
     not correctly formatted.'''
     pass

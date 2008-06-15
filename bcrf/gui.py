@@ -4,6 +4,7 @@
 # related
 import Blender
 # local
+import bcrf.bcrf_lib
 
 
 class MainGUI(object):
@@ -21,8 +22,9 @@ class MainGUI(object):
     EVT_COMPONENTS_TAB = 1400
     EVT_MENU_TAB = 1500
     
-    EVT_GUIDETAB_GNAME = 1101
-    EVT_GUIDETAB_CREATE = 1102
+    # GuideTab Content
+    EVT_GUIDERIGTAB_GNAME = 1101
+    EVT_GUIDERIGTAB_CREATE = 1102
     
     # Generic Dimensions.
     ## Keep in mind changes to these may impact more than you'd expect,
@@ -34,7 +36,7 @@ class MainGUI(object):
         'bottom':3, # Bottom border at Y:3pix
         'top':500, # Top border at Y:0px
     }
-    # Gui dimensions calculated from above.
+    # Gui dimensions calculated from the above border positions.
     gui_width = gui_border_locations['right'] - gui_border_locations['left']
     gui_height = gui_border_locations['top'] - gui_border_locations['bottom']
     
@@ -45,7 +47,7 @@ class MainGUI(object):
     def __init__(self):
         '''Constructor
         '''
-        pass
+        self._guiderig_tab = GuideRigTab()
     
     def _draw_guiderig_tab_gui(self):
         '''Draw the GUI for the guide/rig tab's contents.
@@ -65,7 +67,7 @@ class MainGUI(object):
         
         # Guide Name
         Blender.Draw.String(
-            'Guide Name: ', self.EVT_GUIDETAB_GNAME,
+            'Guide Name: ', self.EVT_GUIDERIGTAB_GNAME,
             self.gui_border_locations['left'], # X
             self.gui_border_locations['top'] - 40, # Y - Height+TabName
             int(self.gui_width*0.65), 20, # Width, Height
@@ -76,7 +78,7 @@ class MainGUI(object):
         
         # Create/Load
         Blender.Draw.PushButton(
-            'Create/Load Guide', self.EVT_GUIDETAB_CREATE,
+            'Create/Load Guide', self.EVT_GUIDERIGTAB_CREATE,
             int(self.gui_border_locations['left'] + self.gui_width*0.65), # X
             self.gui_border_locations['top'] - 40, # Y
             int(self.gui_width*0.35), # Width
@@ -217,6 +219,7 @@ class MainGUI(object):
     def _events(self, event_id):
         '''
         '''
+        
         def not_handled():
             '''A simple function to use for events that
             are not handled.'''
@@ -230,15 +233,16 @@ class MainGUI(object):
             self.EVT_HELP_BTN:not_handled,
             
             # Tab Buttons
-            self.EVT_GUIDERIG_TAB:self.guide_tab_clicked_event,
+            self.EVT_GUIDERIG_TAB:self.guiderig_tab_clicked_event,
             self.EVT_COMPONENTS_TAB:self.components_tab_clicked_event,
             self.EVT_MENU_TAB:self.menu_tab_clicked_event,
             self.EVT_COMPTEST_TAB:self.rig_tab_clicked_event,
             self.EVT_XML_TAB:self.xml_tab_clicked_event,
             
             # Guide Tab Events
-            self.EVT_GUIDETAB_CREATE:not_handled,
-            self.EVT_GUIDETAB_GNAME:not_handled,
+            self.EVT_GUIDERIGTAB_CREATE:
+            self.guiderigtab_createguide_clicked_event,
+            self.EVT_GUIDERIGTAB_GNAME:not_handled,
         }
         # Call the switch
         event_switch[event_id]()
@@ -282,6 +286,18 @@ class MainGUI(object):
         '''
         Blender.Draw.Exit()
     
+    def components_tab_clicked_event(self):
+        '''Display the Modules Tab.
+        '''
+        if self.current_tab != 'components':
+            self.current_tab = 'components'
+            self.redraw_display()
+    
+    def create_guiderig_clicked_event(self):
+        '''The Create Guide button was clicked on the GUIDE/RIG tab.
+        '''
+        
+    
     def display(self):
         '''Display the GUI for the first time.
         '''
@@ -289,18 +305,11 @@ class MainGUI(object):
         # since all values have defaults. So simply call redraw.
         self.redraw_display()
     
-    def guide_tab_clicked_event(self):
+    def guiderig_tab_clicked_event(self):
         '''Display the Guide Tab.
         '''
         if self.current_tab != 'guiderig':
             self.current_tab = 'guiderig'
-            self.redraw_display()
-    
-    def components_tab_clicked_event(self):
-        '''Display the Modules Tab.
-        '''
-        if self.current_tab != 'components':
-            self.current_tab = 'components'
             self.redraw_display()
     
     def menu_tab_clicked_event(self):
@@ -328,6 +337,25 @@ class MainGUI(object):
         if self.current_tab != 'xml':
             self.current_tab = 'xml'
             self.redraw_display()
+
+class TabGUI(object):
+    '''The base class for tab's event logic. These are just a arbitrary
+    logic separator to keep the L{MainGUI} class a little less cluttered.'''
+    pass
+
+class GuideRigTab(TabEventLogic):
+    ''''''
+
+    def __init__(self):
+        '''
+        '''
+        pass
+    
+    def create_guide_clicked_event(self):
+        '''The Create/Load Guide button on the Guide/Rig tab was clicked.
+        '''
+        print 'clicked'
+
 
 # Create the GUI instance
 main_gui = MainGUI()
