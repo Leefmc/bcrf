@@ -47,7 +47,6 @@ class MainGUI(object):
     def __init__(self):
         '''Constructor
         '''
-        self._guiderig_tab = GuideRigTab()
     
     def _draw_guiderig_tab_gui(self):
         '''Draw the GUI for the guide/rig tab's contents.
@@ -312,6 +311,11 @@ class MainGUI(object):
             self.current_tab = 'guiderig'
             self.redraw_display()
     
+    def guiderigtab_createguide_clicked_event(self):
+        '''The Create/Load Guide button on the Guide/Rig tab was clicked.
+        '''
+        print 'clicked'
+    
     def menu_tab_clicked_event(self):
         '''Display the Rig Tab.
         '''
@@ -338,23 +342,6 @@ class MainGUI(object):
             self.current_tab = 'xml'
             self.redraw_display()
 
-class TabGUI(object):
-    '''The base class for tab's event logic. These are just a arbitrary
-    logic separator to keep the L{MainGUI} class a little less cluttered.'''
-    pass
-
-class GuideRigTab(TabEventLogic):
-    ''''''
-
-    def __init__(self):
-        '''
-        '''
-        pass
-    
-    def create_guide_clicked_event(self):
-        '''The Create/Load Guide button on the Guide/Rig tab was clicked.
-        '''
-        print 'clicked'
 
 
 # Create the GUI instance
