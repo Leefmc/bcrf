@@ -18,6 +18,9 @@ class Component(object):
 
 class GuideComponent(Component):
     '''The base for guide components.
+    
+    @todo: Move the "tool" like functions into a different location in
+    the framework.
     '''
 
     def add_translate_guide(name, position=(0,0,0), rotation=(0,0,0), scale=1):
