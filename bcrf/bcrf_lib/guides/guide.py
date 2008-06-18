@@ -1,4 +1,4 @@
-'''This module provides code for creating and interacting with Guides.'''
+'''This module provides code for creating and interacting with the .'''
 
 # standard
 # related

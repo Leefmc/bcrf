@@ -1,22 +1,12 @@
-'''A collection of base modules ment to be extended by user L{components}.'''
+'''A collection of code involving component guides'''
 
 # standard
 # related
 # local
+import bcrf.bcrf_lib.base
 
 
-class Component(object):
-    '''The base class for both rig and guide components.
-    '''
-
-    def __init__(self, base_name):
-        '''
-        @param base_name: The base name of the component. This will be used
-        in much of the naming conventions.
-        '''
-        self.base_name = base_name
-
-class GuideComponent(Component):
+class GuideComponent(bcrf.bcrf_lib.base.Component):
     '''The base for guide components.
     
     @todo: Move the "tool" like functions into a different location in
@@ -51,8 +41,3 @@ class GuideComponent(Component):
         
         if len(objects) < 2:
             raise Exception('REPLACE ME WITH A REAL EXCEPTION')
-
-class RigComponent(Component):
-    '''The base for rig components.
-    '''
-
