@@ -1,18 +1,24 @@
 '''A collection of code involving component guides'''
 
 # standard
+import exceptions
 # related
 # local
 import bcrf.bcrf_lib.base
 
 
-class GuideComponent(bcrf.bcrf_lib.base.Component):
-    '''The base for guide components.
-    
-    @todo: Move the "tool" like functions into a different location in
-    the framework.
+class ComponentGuideUtilities:
+    '''A collection of utilities designed for the creation, deletion, and
+    editing of component guides.
     '''
 
+    def __init__(self, component_base_name):
+        '''
+        @param component_base_name: The base name of the component that these
+        utilities will be focused on.
+        '''
+        self.component_base_name = component_base_name
+    
     def add_translate_guide(name, position=(0,0,0), rotation=(0,0,0), scale=1):
         '''
         '''
@@ -28,16 +34,23 @@ class GuideComponent(bcrf.bcrf_lib.base.Component):
         the trackers. Each object will be used to create, in order,
         rotation trackers at their positions.
         
-        @important: Keep in mind that the last object in the sequence will
+        @note: Keep in mind that the last object in the sequence will
         not have tracking applied to it, because there must be an object
         for the "tracker" to point to.
         
-        @raise SomeException: Raised if there is only one object given to the
+        @raise ValueError: Raised if there is only one object given to the
         rotation object. There needs to be atleast 2 object given to this
         function.
-        
-        @todo: Replace the fake exception with a real one.. heh.
         '''
         
         if len(objects) < 2:
-            raise Exception('REPLACE ME WITH A REAL EXCEPTION')
+            raise exceptions.ValueError('The objects argument must have 2 or '
+            'more objects within.')
+
+class GuideComponent(bcrf.bcrf_lib.base.Component):
+    '''The base for guide components.
+    
+    @todo: Move the "tool" like functions into a different location in
+    the framework.
+    '''
+
