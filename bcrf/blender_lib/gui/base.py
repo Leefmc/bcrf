@@ -17,6 +17,9 @@ class GUI(object):
         self.width = width
         self.height = height
         
+        #A dict of buttons, used to retrieve values later.
+        self._buttons = {}
+        
         self._keyboard_event_switch = {
             Blender.Draw.ESCKEY:self._esc_key_event
         }

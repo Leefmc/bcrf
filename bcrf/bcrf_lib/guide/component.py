@@ -7,11 +7,12 @@ import exceptions
 import bcrf.bcrf_lib.base
 
 
-class ComponentGuideUtilities:
+class ComponentGuideUtilities(object):
     '''A collection of utilities designed for the creation, deletion, and
-    editing of component guides.
+    editing of a component guide.
     '''
 
+    
     def __init__(self, component_base_name):
         '''
         @param component_base_name: The base name of the component that these
@@ -47,10 +48,7 @@ class ComponentGuideUtilities:
             raise exceptions.ValueError('The objects argument must have 2 or '
             'more objects within.')
 
-class GuideComponent(bcrf.bcrf_lib.base.Component):
+class ComponentGuide(bcrf.bcrf_lib.base.Component):
     '''The base for guide components.
-    
-    @todo: Move the "tool" like functions into a different location in
-    the framework.
     '''
 

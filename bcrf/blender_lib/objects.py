@@ -5,8 +5,8 @@
 # local
 
 
-class Objects(object):
-    '''A basic wrapper for common blender object oriented tasks.'''
+class ObjectsUtilities(object):
+    '''A basic wrapper for common blender object oriented utilities.'''
 
     def __init__(self, blender_objects):
         '''
@@ -20,3 +20,14 @@ class Objects(object):
         @param name: The name of the object to check the scene for.
         '''
         pass
+
+class ObjectUtilities(object):
+    '''Utilities for a Blender Object.'''
+
+    def __init__(self, blender_object):
+        '''
+        '''
+        
+        
+    
+    

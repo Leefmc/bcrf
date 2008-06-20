@@ -4,6 +4,7 @@
 # related
 import Blender.Draw
 # local
+import bcrf.bcrf_lib.guides.character_guide
 import bcrf.blender_lib.gui.base
 
 
@@ -24,16 +25,29 @@ class GuideTabContent(bcrf.blender_lib.gui.base.TabContent):
     button_title = 'GUIDE'
     
     def __init__(self, *args, **kw_args):
-        '''Initialize the L{self._gui_event_switch}
+        '''Append the L{self._gui_event_switch}
         '''
         super(GuideTabContent, self).__init__(*args, **kw_args)
         
+        # Append the true event id to the L{self._gui_event_switch}
         self._gui_event_switch[self._true_eid(1)] = self.build_guide_event
     
     def build_guide_event(self, event_id):
+        '''This event is triggered when the "Build/Load" button is pressed.
         '''
-        '''
-        pass
+        try:
+            bcrf.bcrf_lib.guides.character_guide.CharacterGuide(
+                self._buttons['guide_name']
+            )
+        except bcrf.bcrf_lib.guides.character_guide.\
+               CharacterGuideNotFoundError, inst:
+            pass
+        except bcrf.bcrf_lib.guides.character_guide.\
+               NameNotCharacterGuideError, inst:
+            Blender.Draw.PupMenu('Error: Not Character%t|Ok')
+        else:
+            pass
+        
     
     def draw(self):
         '''
@@ -41,7 +55,7 @@ class GuideTabContent(bcrf.blender_lib.gui.base.TabContent):
         super(GuideTabContent, self).draw()
         
         # Guide Name
-        Blender.Draw.String(
+        self._buttons['guide_name'] = Blender.Draw.String(
             'Guide Name: ',
             0,
             self.x, # X

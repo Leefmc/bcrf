@@ -1,4 +1,4 @@
-'''Base classes for classes for many sub-modules & packages.'''
+'''Base classes for many sub-modules & packages.'''
 
 # standard
 # related

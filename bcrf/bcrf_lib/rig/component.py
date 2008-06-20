@@ -6,6 +6,6 @@
 import bcrf.bcrf_lib.base
 
 
-class RigComponent(Component):
+class ComponentRig(bcrf.bcrf_lib.base.Component):
     '''The base for rig components.
     '''
