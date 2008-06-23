@@ -5,6 +5,7 @@ Guides.'''
 # related
 import Blender.Scene
 # local
+import bcrf.blender_lib.scene
 import bcrf.bcrf_lib.exceptions
 
 
@@ -13,11 +14,12 @@ class CharacterGuide(object):
     '''This class represents an existing Character Guide in the scene.'''
 
     
-    def __init__(self, scene, character_guide_name):
+    def __init__(self, character_guide_name, scene=None):
         '''
-        @param scene: The scene that this class will use.
-        @type scene: A L{bcrf.blender_lib.scene.Scene} like object.
         @param character_guide_name: The name of an existing Character Guide.
+        @param scene: The scene that this class will use. If None, the
+        L{bcrf.blender_lib.scene.Scene ActiveScene} is used.
+        @type scene: A L{bcrf.blender_lib.scene.Scene} like object.
         
         @see: To create a new Character Guide, see L{create_character_guide}.
         
@@ -25,8 +27,35 @@ class CharacterGuide(object):
         @raise NameNotCharacterGuideError: see L{NameNotCharacterGuideError}
         '''
         
-        self.scene = scene
+        if scene is None:
+            self.scene = bcrf.blender_lib.scene.ActiveScene()
+        else:
+            self.scene = scene
         self.character_guide_name = character_guide_name
+        
+        self.character_utilities = CharacterGuideUtilities(
+            character_guide_name, scene
+        )
+        
+        # Create the switch functions
+        def is_character_guide():
+            pass
+        
+        def does_not_exist():
+            raise CharacterGuideNotFoundError()
+        
+        def not_character_guide():
+            raise NameNotCharacterGuideError()
+        
+        # Create the switch
+        guide_existance_switch = {
+            'is_character_guide':is_character_guide,
+            'is_not_character_guide':not_character_guide,
+            'object_does_not_exist':does_not_exist,
+        }
+        
+        # Call switch
+        guide_existance_switch[self.character_utilities.guide_state()]()
 
 class CharacterGuideUtilities(object):
     '''A collection of utilities designed for the creation, deletion, and
@@ -34,14 +63,18 @@ class CharacterGuideUtilities(object):
     '''
     
     
-    def __init__(self, scene, character_guide_name):
+    def __init__(self, character_guide_name, scene=None):
         '''
-        @param scene: The scene that this class will use.
-        @type scene: A L{bcrf.blender_lib.scene.Scene} like object.
         @param character_guide_name: The name of a Character Guide.
+        @param scene: The scene that this class will use. If None, the
+        L{bcrf.blender_lib.scene.Scene ActiveScene} is used.
+        @type scene: A L{bcrf.blender_lib.scene.Scene} like object.
         '''
         
-        self.scene = scene
+        if scene is None:
+            self.scene = bcrf.blender_lib.scene.ActiveScene()
+        else:
+            self.scene = scene
         self.character_guide_name = character_guide_name
     
     def create_character_guide(self):
@@ -60,6 +93,35 @@ class CharacterGuideUtilities(object):
         '''
         pass
     
+    def get_character_guide(self):
+        '''Return a character guide, by either creating or loading a
+        character guide.
+        
+        @raise NameNotCharacterGuideError: see L{NameNotCharacterGuideError}
+        '''
+        
+        # Load the character guide
+        def is_character_guide():
+            pass
+        
+        # Create the character guide
+        def does_not_exist():
+            pass
+        
+        # Raise an error.
+        def not_character_guide():
+            raise NameNotCharacterGuideError()
+        
+        # Create the switch
+        guide_existance_switch = {
+            'is_character_guide':is_character_guide,
+            'is_not_character_guide':not_character_guide,
+            'object_does_not_exist':does_not_exist,
+        }
+        
+        # Call switch
+        guide_existance_switch[self.guide_state()]()
+    
     def guide_state(self):
         '''This function serves as a switch-able way of taking different
         actions based on the existance/formatting/whatever of the character
@@ -72,8 +134,8 @@ class CharacterGuideUtilities(object):
         
         @return: Based on the status of this character guide, the following
         strings may be returned.
-         - is_guide
-         - is_not_guide
+         - is_character_guide
+         - is_not_character_guide
          - object_does_not_exist
         '''
         pass
@@ -83,6 +145,11 @@ class CharacterGuideUtilities(object):
         valid character guide.
         @return: True if this is an _existing_ character guide, False if it
         does not exist or is not a properly formatted character guide.
+        '''
+        pass
+    
+    def load_character_guide(self):
+        '''Load a Character Guide
         '''
         pass
 

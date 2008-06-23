@@ -4,7 +4,9 @@
 # related
 import Blender.Draw
 # local
-import bcrf.bcrf_lib.guides.character_guide
+import bcrf.bcrf_lib.guide.character
+import bcrf.blender_lib.object
+import bcrf.blender_lib.scene
 import bcrf.blender_lib.gui.base
 
 
@@ -34,19 +36,14 @@ class GuideTabContent(bcrf.blender_lib.gui.base.TabContent):
     
     def build_guide_event(self, event_id):
         '''This event is triggered when the "Build/Load" button is pressed.
+        
+        @attention: Since this is the only button at the moment, this is going
+        to be a temporary testbed for direct framework calls.
         '''
-        try:
-            bcrf.bcrf_lib.guides.character_guide.CharacterGuide(
-                self._buttons['guide_name']
-            )
-        except bcrf.bcrf_lib.guides.character_guide.\
-               CharacterGuideNotFoundError, inst:
-            pass
-        except bcrf.bcrf_lib.guides.character_guide.\
-               NameNotCharacterGuideError, inst:
-            Blender.Draw.PupMenu('Error: Not Character%t|Ok')
-        else:
-            pass
+        #cg_utils = bcrf.bcrf_lib.guide.character.CharacterGuideUtilities(
+            #self._buttons['guide_name']
+        #)
+        #cg_utils.get_character_guide()
         
     
     def draw(self):
