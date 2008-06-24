@@ -92,3 +92,61 @@ class ObjectUtilities(object):
         
         self.blender_object = blender_object
 
+class ObjectData(object):
+    '''A wrapper for writing/reading object data stored in Blender's
+    "ID Properties". The purpose of this wrapper is mainly to allow extra data
+    type storage. Simple things such as Booleans are implemented by storing
+    strings like "bcrfTrue", then interpreting them during a read/write.
+    '''
+
+    # Note that i am excplicitly defining both read & write, for ease of code.
+    
+    _bcrf_read_types = {
+        'bcrftTrue':True,
+        'bcrftFalse':False,
+    }
+    
+    _bcrf_write_types = {
+        True:'bcrftTrue',
+        False:'bcrftFalse',
+    }
+    
+    def __init__(self, blender_object):
+        '''
+        @param blender_object: The object this class will use to store data in.
+        '''
+        
+        self.blender_object = blender_object
+        self.object_properties = blender_object.properties
+    
+    def __getitem__(self, key):
+        '''
+        '''
+        # Pull the data from the Blender Object
+        blender_value = self.object_properties[key]
+        
+        # Check if the value is a bcrf type.
+        # If it is, return the value replacement.
+        if self._bcrf_read_types.has_key(blender_value):
+            return self._bcrf_read_types[key]
+        # Yes i know, this else is not needed. Its easier to read though!
+        # If it is not, return the actual value.
+        else:
+            return blender_value
+    
+    def __setitem__(self, key, value):
+        '''
+        '''
+        # Check if the value is a bcrf type.
+        # If it is, set the value replacement.
+        if self._bcrf_write_types.has_key(value):
+            self.object_properties[key] = self._bcrf_write_types[key]
+        # Yes i know, this else is not needed. Its easier to read though!
+        # If it is not, set the actual value.
+        else:
+            self.object_properties[key] = value
+    
+    def __str__(self):
+        '''
+        '''
+        return str(self.object_properties)

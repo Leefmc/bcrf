@@ -59,7 +59,7 @@ class GuideTabContent(bcrf.blender_lib.gui.base.TabContent):
             self.y + (self.height-20), # Y
             int(round(self.width*0.65)), 20, # Width, Height
             'bcrf_guide', # Default
-            25, # Max Char Length
+            10, # Max Char Length
             'Enter the name for the Guide you want to Create or Load.'# Tooltip
         )
         

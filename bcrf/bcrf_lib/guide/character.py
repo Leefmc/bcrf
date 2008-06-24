@@ -9,7 +9,6 @@ import bcrf.blender_lib.scene
 import bcrf.bcrf_lib.exceptions
 
 
-
 class CharacterGuide(object):
     '''This class represents an existing Character Guide in the scene.'''
 
@@ -152,6 +151,19 @@ class CharacterGuideUtilities(object):
         '''Load a Character Guide
         '''
         pass
+
+class CharacterGuideData(object):
+    '''A class explicitly set to read and write ObjectData formatted for
+    Character Guides.'''
+
+    def __init__(self, character_guide):
+        '''
+        @param character_guide: An instance of L{CharacterGuide}
+        '''
+        
+        
+    
+    
 
 class CharacterGuideNotFoundError(bcrf.bcrf_lib.exceptions.ObjectNotFound):
     '''A character guide was going to be loaded, but was not found.'''
