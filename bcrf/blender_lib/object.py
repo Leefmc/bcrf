@@ -97,6 +97,21 @@ class ObjectData(object):
     "ID Properties". The purpose of this wrapper is mainly to allow extra data
     type storage. Simple things such as Booleans are implemented by storing
     strings like "bcrfTrue", then interpreting them during a read/write.
+    @see: Note that this is just the base, for actual implementations, see
+    L{ObjectDataDict} and L{ObjectDataList}'''
+
+    
+    def __init__(self, blender_object):
+        '''
+        @param blender_object: The object this class will use to store data in.
+        '''
+        
+        self.blender_object = blender_object
+        self.object_properties = blender_object.properties
+
+class ObjectDataDict(ObjectData):
+    '''A dict wrapper for ObjectData.
+    @todo: Test
     '''
 
     # Note that i am excplicitly defining both read & write, for ease of code.
@@ -110,14 +125,6 @@ class ObjectData(object):
         True:'bcrftTrue',
         False:'bcrftFalse',
     }
-    
-    def __init__(self, blender_object):
-        '''
-        @param blender_object: The object this class will use to store data in.
-        '''
-        
-        self.blender_object = blender_object
-        self.object_properties = blender_object.properties
     
     def __getitem__(self, key):
         '''
@@ -150,3 +157,10 @@ class ObjectData(object):
         '''
         '''
         return str(self.object_properties)
+
+class ObjectDataList(ObjectData):
+    '''A list wrapper for Object Data.
+    @todo: Code.
+    '''
+    pass
+
