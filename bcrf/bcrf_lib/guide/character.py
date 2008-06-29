@@ -2,11 +2,14 @@
 Guides.'''
 
 # standard
+import exceptions
 # related
 import Blender.Scene
 # local
+import bcrf.bcrf_lib.errors
+import bcrf.bcrf_lib.ctypes
+import bcrf.blender_lib.object
 import bcrf.blender_lib.scene
-import bcrf.bcrf_lib.exceptions
 
 
 class CharacterGuide(object):
@@ -38,7 +41,7 @@ class CharacterGuide(object):
         
         # Create the switch functions
         def is_character_guide():
-            pass
+            raise exceptions.NotImplementedError()
         
         def does_not_exist():
             raise CharacterGuideNotFoundError()
@@ -81,8 +84,15 @@ class CharacterGuideUtilities(object):
         object.
         
         @return: A L{CharacterGuide} object.
+        
+        @todo: Add object data to it, to create the actual "Character Guide"
+        base.
         '''
-        pass
+        object = self.scene.create_object(
+            bcrf.bcrf_lib.ctypes.CharacterGuide.creation_data
+        )
+        raise exceptions.NotImplementedError()
+        return CharacterGuide(self.character_guide_name)
     
     def exists(self):
         '''Check if the character guide that this object represents, exists.
@@ -90,7 +100,7 @@ class CharacterGuideUtilities(object):
         if it is either not in the scene, or not a properly formatted character
         guide.
         '''
-        pass
+        raise exceptions.NotImplementedError()
     
     def get_character_guide(self):
         '''Return a character guide, by either creating or loading a
@@ -101,11 +111,11 @@ class CharacterGuideUtilities(object):
         
         # Load the character guide
         def is_character_guide():
-            pass
+            return CharacterGuide(self.character_guide_name, self.scene)
         
         # Create the character guide
         def does_not_exist():
-            pass
+            self.create_character_guide()
         
         # Raise an error.
         def not_character_guide():
@@ -137,7 +147,20 @@ class CharacterGuideUtilities(object):
          - is_not_character_guide
          - object_does_not_exist
         '''
-        pass
+        # Get the scene objects
+        all_blender_objects = self.scene.all_objects()
+        
+        # Check if the character guide name is in the collection, if not it
+        # does not exist.
+        if not all_blender_objects.has_key(self.character_guide_name):
+            return 'object_does_not_exist'
+        
+        # The is comparison may not be correct here.
+        if self.is_character_guide():
+            return 'is_character_guide'
+        else:
+            return 'is_not_character_guide'
+        
     
     def is_character_guide(self):
         '''Check if the character guide that this object represents, is a
@@ -145,12 +168,15 @@ class CharacterGuideUtilities(object):
         @return: True if this is an _existing_ character guide, False if it
         does not exist or is not a properly formatted character guide.
         '''
-        pass
+        object_to_inspect = all_blender_objects[
+            self.character_guide_name]
+        return bcrf.bcrf_lib.ctypes.CharacterGuide.check_object_type(
+            object_to_inspect)
     
     def load_character_guide(self):
         '''Load a Character Guide
         '''
-        pass
+        raise exceptions.NotImplementedError()
 
 class CharacterGuideData(object):
     '''A class explicitly set to read and write ObjectData formatted for
@@ -161,15 +187,13 @@ class CharacterGuideData(object):
         @param character_guide: An instance of L{CharacterGuide}
         '''
         
-        
-    
-    
+        self.character_guide = character_guide
 
-class CharacterGuideNotFoundError(bcrf.bcrf_lib.exceptions.ObjectNotFound):
+class CharacterGuideNotFoundError(bcrf.bcrf_lib.errors.ObjectNotFound):
     '''A character guide was going to be loaded, but was not found.'''
     pass
 
-class NameNotCharacterGuideError(bcrf.bcrf_lib.exceptions.ObjectTypeError):
+class NameNotCharacterGuideError(bcrf.bcrf_lib.errors.ObjectTypeError):
     '''A name for a character guide was given, but it is either not a BCRF 
     Character Guide, or is not correctly formatted.'''
     pass

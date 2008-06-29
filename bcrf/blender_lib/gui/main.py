@@ -40,11 +40,10 @@ class GuideTabContent(bcrf.blender_lib.gui.base.TabContent):
         @attention: Since this is the only button at the moment, this is going
         to be a temporary testbed for direct framework calls.
         '''
-        #cg_utils = bcrf.bcrf_lib.guide.character.CharacterGuideUtilities(
-            #self._buttons['guide_name']
-        #)
-        #cg_utils.get_character_guide()
-        
+        cg_utils = bcrf.bcrf_lib.guide.character.CharacterGuideUtilities(
+            self._buttons['guide_name']
+        )
+        cg_utils.get_character_guide()
     
     def draw(self):
         '''

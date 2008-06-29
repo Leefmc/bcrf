@@ -5,6 +5,7 @@
 import Blender.Scene
 # local
 import bcrf.blender_lib.object
+import bcrf.blender_lib.ctypes
 
 
 class Scene(object):
@@ -21,28 +22,43 @@ class Scene(object):
     
     def active_object(self):
         '''
-        @return: A BCRF utilities object for all the objects in the scene.
-        @rtype: L{bcrf.blender_lib.object.ObjectsUtilities}
+        @return: A BCRF object collection for all the objects in the scene.
+        @rtype: L{bcrf.blender_lib.object.ObjectCollection}
         '''
-        return self.blender_scene.active
+        return bcrf.blender_lib.object.Object(self.blender_scene.active)
     
     def all_objects(self):
         '''
-        @return: A tuple of all objects.
+        @return: A BCRF object collection for all the objects in the scene.
+        @rtype: L{bcrf.blender_lib.object.ObjectCollection}
         '''
-        return tuple(self.blender_scene.objects)
+        return bcrf.blender_lib.object.ObjectCollection(
+            self.blender_scene.objects)
+    
+    def create_object(self, bcrf_type, name='BCRFObject'):
+        '''
+        @param bcrf_type: A basic, standalone,
+        L{bcrf.blender_lib.ctypes BCRF Type}.
+        @param name: The objects name.
+        '''
+        object = self.blender_scene.objects.new(bcrf_type.blender_data)
+        object.name = name
+        return object
     
     def selected_objects(self, only_visible=True):
         '''
         @param only_visible: If True, only the visible selected objects
         in the scene are returned.
         
-        @return: A tuple of selected objects.
+        @return: A BCRF object collection for all the objects in the scene.
+        @rtype: L{bcrf.blender_lib.object.ObjectCollection}
         '''
         if only_visible:
-            return tuple(self.blender_scene.selected)
+            return bcrf.blender_lib.object.ObjectCollection(
+                self.blender_scene.selected)
         else:
-            return tuple(self.blender_scene.context)
+            return bcrf.blender_lib.object.ObjectCollection(
+                self.blender_scene.context)
 
 class ActiveScene(Scene):
     '''A wrapper for the Active Blender Scene.'''
