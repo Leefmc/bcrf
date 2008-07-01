@@ -115,19 +115,20 @@ class ObjectDataDict(dict):
         None:'bcrftNone',
     }
 
-    def __init__(self, blender_object):
+    def __init__(self, object):
         '''
-        @param blender_object: The object this class will use to store data in.
+        @param object: The object this class will use to store data in.
+        @type object: A L{Object} like object.
         '''
 
-        self.blender_object = blender_object
-        self.object_properties = blender_object.properties
+        self.object = object
+        self.blender_object_properties = object.blender_object.properties
 
     def __getitem__(self, key):
         '''
         '''
         # Pull the data from the Blender Object
-        blender_value = self.object_properties[key]
+        blender_value = self.blender_object_properties[key]
 
         # Check if the value is a bcrf type.
         # If it is, return the value replacement.
@@ -141,7 +142,7 @@ class ObjectDataDict(dict):
     def __len__(self):
         '''
         '''
-        return len(self.object_properties)
+        return len(self.blender_object_properties)
     
     def __setitem__(self, key, value):
         '''
@@ -159,13 +160,13 @@ class ObjectDataDict(dict):
         # Check if the value is a bcrf type.
         # If it is, set the value replacement.
         elif self._bcrf_write_types.has_key(value):
-            self.object_properties[key] = self._bcrf_write_types[value]
+            self.blender_object_properties[key] = self._bcrf_write_types[value]
         # If it is not, set the actual value.
         else:
-            self.object_properties[key] = value
+            self.blender_object_properties[key] = value
 
     def __str__(self):
         '''
         '''
-        return str(self.object_properties)
+        return str(self.blender_object_properties)
 

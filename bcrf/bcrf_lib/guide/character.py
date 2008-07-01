@@ -88,10 +88,17 @@ class CharacterGuideUtilities(object):
         @todo: Add object data to it, to create the actual "Character Guide"
         base.
         '''
+        # Create the blender object for the character guide.
         object = self.scene.create_object(
             bcrf.bcrf_lib.ctypes.CharacterGuide.creation_data
         )
+        
+        # Add data to that object, so that bcrf knows its a bcrf object.
+        object_data = bcrf.blender_lib.object.ObjectDataDict(object)
+        object_data['name'] = self.character_guide_name
+        
         raise exceptions.NotImplementedError()
+        
         return CharacterGuide(self.character_guide_name)
     
     def exists(self):
@@ -180,14 +187,55 @@ class CharacterGuideUtilities(object):
 
 class CharacterGuideData(object):
     '''A class explicitly set to read and write ObjectData formatted for
-    Character Guides.'''
+    Character Guides.
+    
+    @attention: It is also important to note that like ObjectData, this class
+    does not explicitly force data written to L{self.object} to be of any
+    format. This simply limits usage of the object's data to python properties.
+    
+    @todo: Currently all properties try to use an object of self._propertyname,
+    this is obviously incorrect. It is simply written that way because that is
+    my default WingIDE Template. Because of this, all properties need to be
+    re-written internally to support ObjectData['propname'].
+    '''
 
-    def __init__(self, character_guide):
+    def __init__(self, object):
         '''
-        @param character_guide: An instance of L{CharacterGuide}
+        @param object: An instance of an L{bcrf.blender_lib.object.Object}
         '''
         
-        self.character_guide = character_guide
+        self.object = object
+    
+    def _property_get_type(self):
+        return self._type
+    
+    def _property_set_type(self, value):
+        self._type = value
+    
+    def _property_del_type(self):
+        del self._type
+    
+    type = property(
+        _property_get_type,
+        _property_set_type,
+        _property_del_type,
+    )
+    
+    def _property_get_name(self):
+        return self._name
+    
+    def _property_set_name(self, value):
+        self._name = value
+    
+    def _property_del_name(self):
+        del self._name
+    
+    name = property(
+        _property_get_name,
+        _property_set_name,
+        _property_del_name,
+    )
+    
 
 class CharacterGuideNotFoundError(bcrf.bcrf_lib.errors.ObjectNotFound):
     '''A character guide was going to be loaded, but was not found.'''

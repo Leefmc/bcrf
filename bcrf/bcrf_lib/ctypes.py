@@ -41,3 +41,10 @@ class ComponentRig(Component):
     '''
     '''
     pass
+
+class Data(BCRFType):
+    '''This type is intended to strictly store data. Any object can store
+    data, but by using a specific object type for this, finding data can be
+    semi-standardized.
+    '''
+    pass
