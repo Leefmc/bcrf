@@ -4,6 +4,7 @@ that are identifiable, and usable, by BCRF.'''
 # standard
 # related
 # local
+import bcrf.ctypes
 
 
 class BlenderType(bcrf.ctypes.CustomType):

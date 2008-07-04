@@ -5,7 +5,9 @@ import exceptions
 # related
 # local
 import bcrf.ctypes
+import bcrf.bcrf_lib.ctypes
 import bcrf.bcrf_lib.errors
+import bcrf.blender_lib.ctypes
 
 
 
@@ -18,20 +20,39 @@ class Object(object):
         '''
 
         self.blender_object = blender_object
-        self.data = ObjectDataDict(blender_object)
-    
-    def type(self):
-        '''Return a reference to a L{bcrf.ctypes.CustomType BCRF CustomType}.
+        self.data = ObjectDataDict(self)
+
+    def type():
         '''
-        bcrf.ctypes.get_type(self)
+        @return: The L{CustomType} class for the type of object. If the object
+        does not match any supported types, None is returned.
+        '''
+        bcrf_path = 'bcrf.bcrf_lib.ctypes.'
+        blender_path = 'bcrf.blender_lib.ctypes.'
+        type_dict = {
+            '%sCharacterGuide' % bcrf_path:bcrf.bcrf_lib.ctypes.CharacterGuide,
+            '%sCharacterRig' % bcrf_path:bcrf.bcrf_lib.ctypes.CharacterRig,
+            '%sComponentGuide' % bcrf_path:bcrf.bcrf_lib.ctypes.ComponentGuide,
+            '%sComponentRig' % bcrf_path:bcrf.bcrf_lib.ctypes.ComponentRig,
+
+            '%sCurve' % blender_path:bcrf.blender_lib.ctypes.Curve,
+            '%sEmpty' % blender_path:bcrf.blender_lib.ctypes.Empty,
+            '%sMesh' % blender_path:bcrf.blender_lib.ctypes.Mesh,
+        }
+
+        stored_bcrf_type = object.stored_bcrf_type()
+        if type_dict.has_key(stored_bcrf_type):
+            return type_dict[stored_bcrf_type]
+        else:
+            return None
 
 class ObjectCollection(dict):
     '''A wrapper for a collection of Blender objects.'''
 
-    def __init__(self, *blender_objects_collection):
+    def __init__(self, blender_object_collection):
         '''
-        @param blender_objects_collection: One or more
-        Blender.Scene.SceneObjects class instances.
+        @param blender_objects_collection: A Blender.Scene.SceneObjects
+        class instance.
 
         @attention: Although this takes multiple collections of objects as
         parameters, this, as with most of the framework, is not designed to
@@ -42,15 +63,14 @@ class ObjectCollection(dict):
         the collections. It may work, or it may fail horribly. It has not, and
         will not, be handled.
         '''
-        for blender_object_collection in blender_objects_collection:
-            for blender_object in blender_object_collection:
-                object_name = blender_object.getName()
-                if self.has_key(object_name):
-                    raise exceptions.KeyError(
-                        'The key "'+object_name+'" already exists '
-                        'in this ObjectCollection.'
-                    )
-                self[object_name] = blender_object
+        for blender_object in blender_object_collection:
+            object_name = blender_object.getName()
+            if self.has_key(object_name):
+                raise exceptions.KeyError(
+                    'The key "'+object_name+'" already exists '
+                    'in this ObjectCollection.'
+                )
+            self[object_name] = blender_object
 
     def exists(self, name):
         '''Check if an object exists in the scene.
@@ -102,7 +122,7 @@ class ObjectDataDict(dict):
     strings like "bcrfTrue", then interpreting them during a read/write.
     '''
 
-    
+
     _bcrf_read_types = {
         'bcrftTrue':True,
         'bcrftFalse':False,
@@ -138,17 +158,22 @@ class ObjectDataDict(dict):
         # If it is not, return the actual value.
         else:
             return blender_value
-    
+
     def __len__(self):
         '''
         '''
         return len(self.blender_object_properties)
-    
+
     def __setitem__(self, key, value):
         '''
         @raise bcrf.bcrf_lib.errors.ReservedBCRFString: See
         L{bcrf.bcrf_lib.errors.ReservedBCRFString ReservedBCRFString}
         '''
+        print 'Assigning Object Data:\n\tKey:%s\n\tValue:%s\n\tObject Name:%s\n' % (
+            key,
+            value,
+            self.object.blender_object.name,
+        )
         # If the value matches a string that is considered a "bcrf type",
         # raise an exception because the value will write, but upon reading
         # it will be replaced with the type that the bcrf type represents.

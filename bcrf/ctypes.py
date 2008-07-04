@@ -6,35 +6,13 @@ for a common type base class, L{CustomType}.'''
 import exceptions
 # related
 # local
-import bcrf.bcrf_lib.ctypes
-import bcrf.blender_lib.ctypes
 
 
 def get_type(object):
     '''
-    @param object: A L{bcrf.blender_lib.object.Object} like object.
-    
-    @return: The L{CustomType} class for the type of object. If the object
-    does not match any supported types, None is returned.
+    @deprecated: See L{bcrf.blender_lib.object.Object.type}
     '''
-    bcrf_path = 'bcrf.bcrf_lib.ctypes.'
-    blender_path = 'bcrf.blender_lib.ctypes.'
-    type_dict = {
-        '%sCharacterGuide' % bcrf_path:bcrf.bcrf_lib.ctypes.CharacterGuide,
-        '%sCharacterRig' % bcrf_path:bcrf.bcrf_lib.ctypes.CharacterRig,
-        '%sComponentGuide' % bcrf_path:bcrf.bcrf_lib.ctypes.ComponentGuide,
-        '%sComponentRig' % bcrf_path:bcrf.bcrf_lib.ctypes.ComponentRig,
-        
-        '%sCurve' % blender_path:bcrf.blender_lib.ctypes.Curve,
-        '%sEmpty' % blender_path:bcrf.blender_lib.ctypes.Empty,
-        '%sMesh' % blender_path:bcrf.blender_lib.ctypes.Mesh,
-    }
-    
-    stored_bcrf_type = object.stored_bcrf_type()
-    if type_dict.has_key(stored_bcrf_type):
-        return type_dict[stored_bcrf_type]
-    else:
-        return None
+    pass
 
 class CustomType(object):
     '''The base type for the L{bcrf.bcrf_lib bcrf_lib} and
@@ -57,6 +35,10 @@ class CustomType(object):
     
     @classmethod
     def bcrf_type(cls):
+        '''
+        @return: This returns the full module path and class name. The purpose
+        of this is so that each class has a unique type name.
+        '''
         return '%s.%s' % (str(cls.__module__), str(cls.__name__),)
     
     @classmethod
@@ -69,7 +51,7 @@ class CustomType(object):
         return object.type() is cls
     
     @classmethod
-    def creation_data(self):
+    def blender_creation_data(cls):
         '''When creating a new Blender, the BPY API takes a data object
         for the new object you are going to create. This function returns an
         instance of that data type.
