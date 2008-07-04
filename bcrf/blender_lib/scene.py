@@ -36,13 +36,19 @@ class Scene(object):
             self.blender_scene.objects)
     
     def create_object(self, bcrf_type, name='BCRFObject'):
-        '''
+        '''This creates an object and assigns some basic standardized data to
+        it; Such as, the BCRF Type.
         @param bcrf_type: A basic, standalone,
         L{bcrf.blender_lib.ctypes BCRF Type}.
         @param name: The objects name.
         '''
-        object = self.blender_scene.objects.new(bcrf_type.blender_data)
-        object.name = name
+        blender_object = self.blender_scene.objects.new(
+            bcrf_type.blender_creation_data())
+        object = bcrf.blender_lib.object.Object(blender_object)
+        blender_object.name = name
+        
+        object.data['bcrf_type'] = bcrf_type.bcrf_type()
+        
         return object
     
     def selected_objects(self, only_visible=True):

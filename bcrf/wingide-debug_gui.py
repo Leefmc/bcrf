@@ -17,7 +17,7 @@ winghome = r'/usr/lib/wingide3.1'
 scriptpath = os.path.abspath(os.path.curdir)
 # Blender seems to initialize the module from an odd location,
 # this is a temp hack. Change it to your needs.
-scriptpath = r'/home/lee/Programming/bcrf/src/blender'
+scriptpath = r'/home/lee/Programming/bcrf/src/bcrf'
 
 scriptfile = r'%s/gui.py' % scriptpath
 

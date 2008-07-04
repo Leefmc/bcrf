@@ -41,7 +41,7 @@ class CharacterGuide(object):
         
         # Create the switch functions
         def is_character_guide():
-            raise exceptions.NotImplementedError()
+            pass
         
         def does_not_exist():
             raise CharacterGuideNotFoundError()
@@ -90,14 +90,12 @@ class CharacterGuideUtilities(object):
         '''
         # Create the blender object for the character guide.
         object = self.scene.create_object(
-            bcrf.bcrf_lib.ctypes.CharacterGuide.creation_data
+            bcrf.bcrf_lib.ctypes.CharacterGuide,
+            name=self.character_guide_name
         )
         
         # Add data to that object, so that bcrf knows its a bcrf object.
-        object_data = bcrf.blender_lib.object.ObjectDataDict(object)
-        object_data['name'] = self.character_guide_name
-        
-        raise exceptions.NotImplementedError()
+        cg_data = CharacterGuideData(object)
         
         return CharacterGuide(self.character_guide_name)
     
@@ -114,6 +112,11 @@ class CharacterGuideUtilities(object):
         character guide.
         
         @raise NameNotCharacterGuideError: see L{NameNotCharacterGuideError}
+        
+        @todo: The L{self.guide_state guide_state} method is soon to be removed,
+        so the methodology needs to be replaced here. It will be replaced
+        with a simple try/except method, initialized by creating the character
+        guide itself.
         '''
         
         # Load the character guide
@@ -122,7 +125,7 @@ class CharacterGuideUtilities(object):
         
         # Create the character guide
         def does_not_exist():
-            self.create_character_guide()
+            return self.create_character_guide()
         
         # Raise an error.
         def not_character_guide():
@@ -153,10 +156,11 @@ class CharacterGuideUtilities(object):
          - is_character_guide
          - is_not_character_guide
          - object_does_not_exist
+        
+        @deprecated: This method will be removed soon because it.. stinks.
         '''
         # Get the scene objects
         all_blender_objects = self.scene.all_objects()
-        
         # Check if the character guide name is in the collection, if not it
         # does not exist.
         if not all_blender_objects.has_key(self.character_guide_name):
@@ -175,7 +179,10 @@ class CharacterGuideUtilities(object):
         @return: True if this is an _existing_ character guide, False if it
         does not exist or is not a properly formatted character guide.
         '''
-        object_to_inspect = all_blender_objects[
+        # Get the scene objects
+        all_objects = self.scene.all_objects()
+        
+        object_to_inspect = all_objects[
             self.character_guide_name]
         return bcrf.bcrf_lib.ctypes.CharacterGuide.check_object_type(
             object_to_inspect)
@@ -186,12 +193,14 @@ class CharacterGuideUtilities(object):
         raise exceptions.NotImplementedError()
 
 class CharacterGuideData(object):
-    '''A class explicitly set to read and write ObjectData formatted for
-    Character Guides.
+    '''An interface to an objects data, limited to the keys of a Character
+    Guide.
     
-    @attention: It is also important to note that like ObjectData, this class
-    does not explicitly force data written to L{self.object} to be of any
-    format. This simply limits usage of the object's data to python properties.
+    @attention: Remember, this is just an interface to an objects data,
+    the interface itself has been limited to Character Guide data. This means
+    that at no point does it enforce that all the data in the object, pertains
+    to I{only} the character guide, but rather it only reads and writes data
+    pertaining to a character guide.
     
     @todo: Currently all properties try to use an object of self._propertyname,
     this is obviously incorrect. It is simply written that way because that is
@@ -205,35 +214,28 @@ class CharacterGuideData(object):
         '''
         
         self.object = object
-    
-    def _property_get_type(self):
-        return self._type
-    
-    def _property_set_type(self, value):
-        self._type = value
-    
-    def _property_del_type(self):
-        del self._type
-    
-    type = property(
-        _property_get_type,
-        _property_set_type,
-        _property_del_type,
-    )
+        self.object_data = bcrf.blender_lib.object.ObjectDataDict(object)
     
     def _property_get_name(self):
-        return self._name
+        return self.object_data['name']
     
     def _property_set_name(self, value):
-        self._name = value
-    
-    def _property_del_name(self):
-        del self._name
+        self.object_data['name'] = value
     
     name = property(
         _property_get_name,
         _property_set_name,
-        _property_del_name,
+    )
+    
+    def _property_get_type(self):
+        return self.object_data['type']
+    
+    def _property_set_type(self, value):
+        self.object_data['type'] = value
+    
+    type = property(
+        _property_get_type,
+        _property_set_type,
     )
     
 

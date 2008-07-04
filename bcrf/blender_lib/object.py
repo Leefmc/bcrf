@@ -22,7 +22,7 @@ class Object(object):
         self.blender_object = blender_object
         self.data = ObjectDataDict(self)
 
-    def type():
+    def type(self):
         '''
         @return: The L{CustomType} class for the type of object. If the object
         does not match any supported types, None is returned.
@@ -40,9 +40,9 @@ class Object(object):
             '%sMesh' % blender_path:bcrf.blender_lib.ctypes.Mesh,
         }
 
-        stored_bcrf_type = object.stored_bcrf_type()
-        if type_dict.has_key(stored_bcrf_type):
-            return type_dict[stored_bcrf_type]
+        bcrf_type_string = self.data['bcrf_type']
+        if type_dict.has_key(bcrf_type_string):
+            return type_dict[bcrf_type_string]
         else:
             return None
 
@@ -70,7 +70,7 @@ class ObjectCollection(dict):
                     'The key "'+object_name+'" already exists '
                     'in this ObjectCollection.'
                 )
-            self[object_name] = blender_object
+            self[object_name] = Object(blender_object)
 
     def exists(self, name):
         '''Check if an object exists in the scene.

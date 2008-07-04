@@ -40,10 +40,14 @@ class GuideTabContent(bcrf.blender_lib.gui.base.TabContent):
         @attention: Since this is the only button at the moment, this is going
         to be a temporary testbed for direct framework calls.
         '''
+        guide_name = self._buttons['guide_name'].val
         cg_utils = bcrf.bcrf_lib.guide.character.CharacterGuideUtilities(
-            self._buttons['guide_name']
+            guide_name
         )
-        cg_utils.get_character_guide()
+        cg_utils.create_character_guide()
+        
+        # Redraw Blender, because of changes to the 3D Enviorment.
+        Blender.Redraw()
     
     def draw(self):
         '''
