@@ -99,7 +99,7 @@ class TabContainer(GUI):
         '''
         '''
         total_tabs = len(self.tabs)
-        tab_per_row = total_tabs / self.tab_rows
+        tab_per_row = int(round(float(total_tabs) / float(self.tab_rows)))
         tab_width = int(round(self.width / tab_per_row))
         tab_row_index = 0
         tab_column_index = 0
@@ -125,16 +125,16 @@ class TabContainer(GUI):
             # If this is the last column on a row, increase the row index and
             # reset the column.
             if tab_column_index == tab_per_row:
+                # If we are on the last row, and there is a modulo, recalculate
+                # the positioning data for this new button.
+                if (tab_row_index+1 == self.tab_rows-1 
+                    and total_tabs % self.tab_rows):
+                    tab_per_row = total_tabs - tab_index-1
+                    tab_width = self.width / tab_per_row
+                
                 tab_column_index = 0
                 tab_row_index += 1
                 tab_y = self.y + tab_row_index * self.tab_height
-                
-                # If we are on the last row, and there is a modulo, recalculate
-                # the positioning data for this new button.
-                if (tab_row_index == self.tab_rows-1 
-                    and total_tabs % self.tab_rows):
-                    tab_per_row = tab_per_row + 1
-                    tab_width = int(round(self.width / tab_per_row))
         
         # Draw the Active Tab
         self.active_tab.draw()
