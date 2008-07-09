@@ -19,6 +19,62 @@ class MainContainer(bcrf.blender_lib.gui.base.TabContainer):
         '''
         super(MainContainer, self).draw()
 
+class CreateComponentTabContent(bcrf.blender_lib.gui.base.TabContent):
+    ''''''
+    
+    
+    tab_header = 'Create Components'
+    button_title = 'CREATE COMPS'
+    
+    def __init__(self, *args, **kw_args):
+        '''Initialize the L{self._gui_event_switch}
+        '''
+        super(CreateComponentTabContent, self).__init__(*args, **kw_args)
+    
+    def draw(self):
+        '''
+        '''
+        super(CreateComponentTabContent, self).draw()
+        
+        # Component Base Name
+        self._buttons['comp_base_name'] = Blender.Draw.String(
+            'Base Name: ',
+            0,
+            self.x, # X
+            self.y + (self.height-20), # Y
+            int(round(self.width*0.65)), 20, # Width, Height
+            'bcrf_component', # Default
+            10, # Max Char Length
+            'This will be used as a prefix for the objects created.'# Tooltip
+        )
+        
+        # Create/Load
+        Blender.Draw.PushButton(
+            'Create Component', self._true_eid(1),
+            int(self.x + self.width*0.65), # X + the width of the above string.
+            self.y + (self.height-20), # Y
+            int(round(self.width*0.35)), # Width
+            20 # Height
+        )
+
+class ModifyComponentTabContent(bcrf.blender_lib.gui.base.TabContent):
+    ''''''
+    
+    
+    tab_header = 'Modify Components'
+    button_title = 'MOD COMPS'
+    
+    def __init__(self, *args, **kw_args):
+        '''Initialize the L{self._gui_event_switch}
+        '''
+        super(ModifyComponentTabContent, self).__init__(*args, **kw_args)
+    
+    def draw(self):
+        '''
+        '''
+        super(ModifyComponentTabContent, self).draw()
+        
+
 class GuideTabContent(bcrf.blender_lib.gui.base.TabContent):
     ''''''
     
@@ -68,7 +124,7 @@ class GuideTabContent(bcrf.blender_lib.gui.base.TabContent):
         
         # Create/Load
         Blender.Draw.PushButton(
-            'Create/Load Guide', self._true_eid(1),
+            'Create Guide', self._true_eid(1),
             int(self.x + self.width*0.65), # X + the width of the above string.
             self.y + (self.height-20), # Y
             int(round(self.width*0.35)), # Width
@@ -91,3 +147,20 @@ class RigTabContent(bcrf.blender_lib.gui.base.TabContent):
         '''
         '''
         super(RigTabContent, self).draw()
+
+class XMLTabContent(bcrf.blender_lib.gui.base.TabContent):
+    ''''''
+    
+    
+    tab_header = 'XML'
+    button_title = 'XML'
+    
+    def __init__(self, *args, **kw_args):
+        '''Initialize the L{self._gui_event_switch}
+        '''
+        super(XMLTabContent, self).__init__(*args, **kw_args)
+    
+    def draw(self):
+        '''
+        '''
+        super(XMLTabContent, self).draw()

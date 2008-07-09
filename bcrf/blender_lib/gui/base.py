@@ -9,7 +9,7 @@ import Blender.Draw
 class GUI(object):
     ''''''
 
-    def __init__(self, x=0, y=0, width=200, height=400):
+    def __init__(self, x, y, width, height):
         '''
         '''
         self.x = x
@@ -63,8 +63,8 @@ class GUI(object):
 class TabContainer(GUI):
     ''''''
     
-    def __init__(self, x=0, y=0, width=300, height=400,
-                 tab_rows=1, tab_height=15):
+    def __init__(self, x=0, y=0, width=400, height=500,
+                 tab_rows=2, tab_height=15):
         '''
         '''
         super(TabContainer, self).__init__(x, y, width, height)
@@ -97,23 +97,44 @@ class TabContainer(GUI):
     
     def draw(self):
         '''
-        @important: At the moment, rows do not work. So even if given multiple
-        rows, this draw will only put buttons in one row.
         '''
         total_tabs = len(self.tabs)
-        tab_button_width = int(round(self.width / total_tabs))
+        tab_per_row = total_tabs / self.tab_rows
+        tab_width = int(round(self.width / tab_per_row))
+        tab_row_index = 0
+        tab_column_index = 0
+        tab_y = self.y
         
         # Draw the Tab Buttons
         for tab_index in range(total_tabs):
+            tab_x = self.x + tab_width * tab_column_index
+            
             tab = self.tabs[tab_index]
             Blender.Draw.PushButton(
                 tab.button_title,
                 tab.event_id_base,
-                self.x + tab_button_width * tab_index, # +1 offsets zero.
-                self.y,
-                tab_button_width,
+                tab_x,
+                tab_y,
+                tab_width,
                 self.tab_height
             )
+            
+            # Inc the column index
+            tab_column_index += 1
+            
+            # If this is the last column on a row, increase the row index and
+            # reset the column.
+            if tab_column_index == tab_per_row:
+                tab_column_index = 0
+                tab_row_index += 1
+                tab_y = self.y + tab_row_index * self.tab_height
+                
+                # If we are on the last row, and there is a modulo, recalculate
+                # the positioning data for this new button.
+                if (tab_row_index == self.tab_rows-1 
+                    and total_tabs % self.tab_rows):
+                    tab_per_row = tab_per_row + 1
+                    tab_width = int(round(self.width / tab_per_row))
         
         # Draw the Active Tab
         self.active_tab.draw()
