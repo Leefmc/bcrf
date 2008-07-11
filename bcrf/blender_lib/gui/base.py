@@ -189,3 +189,21 @@ class TabContent(GUI):
         self.tab_container.active_tab = self
         Blender.Draw.Redraw()
 
+class GUIUtilities(object):
+    '''A collection of utilities for all that is GUI.'''
+    
+    def render_menu_string(self, title, menu_items):
+        '''Because the menu system uses a rather unfriendly interface, this
+        function will take a menu title, menu items, and an optional index list,
+        and render out the "Menu String", as seen in the U{menu example
+        <blender.org/documentation/246PythonDoc/Draw-module.html#Menu>}.
+        
+        @param title: The title of the menu.
+        @param menu_items: A list of strings representing the menu item titles.
+        '''
+        for index in range(len(menu_items)):
+            menu_items[index] += ' %x' + str(index)
+        menu_items.insert(0, title + ' %t')
+        return '|'.join(menu_items)
+    
+    

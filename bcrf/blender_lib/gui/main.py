@@ -38,12 +38,12 @@ class CreateComponentTabContent(bcrf.blender_lib.gui.base.TabContent):
         
         # Component Base Name
         self._buttons['comp_base_name'] = Blender.Draw.String(
-            'Base Name: ',
+            'Component Name: ',
             0,
             self.x, # X
             self.y + (self.height-20), # Y
             int(round(self.width*0.65)), 20, # Width, Height
-            'bcrf_component', # Default
+            'bcrf_comp', # Default
             10, # Max Char Length
             'This will be used as a prefix for the objects created.'# Tooltip
         )
@@ -56,6 +56,46 @@ class CreateComponentTabContent(bcrf.blender_lib.gui.base.TabContent):
             int(round(self.width*0.35)), # Width
             20 # Height
         )
+        
+        # Create a GUI Utilities object.
+        gui_utils = bcrf.blender_lib.gui.base.GUIUtilities()
+        
+        # Component Category
+        Blender.Draw.Menu(
+            gui_utils.render_menu_string(
+                'Category',
+                [
+                    'TestA',
+                    'TestB',
+                    'TestC',
+                ]
+                ), self._true_eid(1),
+            int(self.x), # X
+            self.y + (self.height-40), # Y
+            int(round(self.width*0.5)), # Width
+            20, # Height
+            0, # The Default Index
+            '' # Tooltip
+        )
+        
+        # Component
+        Blender.Draw.Menu(
+            gui_utils.render_menu_string(
+                'Component',
+                [
+                    'TestA',
+                    'TestB',
+                    'TestC',
+                ]
+                ), self._true_eid(1),
+            int(self.x + self.width*0.5), # X
+            self.y + (self.height-40), # Y
+            int(round(self.width*0.5)), # Width
+            20, # Height
+            0, # The Default Index
+            '' # Tooltip
+        )
+        
 
 class ModifyComponentTabContent(bcrf.blender_lib.gui.base.TabContent):
     ''''''
