@@ -45,8 +45,7 @@ class CreateComponentTabContent(bcrf.blender_lib.gui.base.TabContent):
         '''
         '''
         self.generate_components_list()
-        #self._buttons['component'].name = 'Blah%t|Grr%x1'
-        Blender.Redraw()
+        Blender.Draw.Redraw()
     
     def generate_components_list(self):
         '''
@@ -57,6 +56,9 @@ class CreateComponentTabContent(bcrf.blender_lib.gui.base.TabContent):
             None, None,
             ['notemptyhack']
         )
+        self._component_index = module.index
+        '''
+        # Just some random test content im leaving in for now.
         import string
         import random
         self._component_index = [
@@ -64,6 +66,7 @@ class CreateComponentTabContent(bcrf.blender_lib.gui.base.TabContent):
             string.uppercase[random.randint(0,len(string.uppercase)-1)],
             string.uppercase[random.randint(0,len(string.uppercase)-1)],
         ]
+        '''
     
     def draw(self):
         '''
@@ -110,15 +113,12 @@ class CreateComponentTabContent(bcrf.blender_lib.gui.base.TabContent):
             self.category_changed_event # Callback
         )
         
-        menustring = gui_utils.render_menu_string(
-                'Component',
-                self._component_index
-        )
-        
-        print 'Drawing Menu "%s"' % menustring
         # Component
         self._buttons['component'] = Blender.Draw.Menu(
-            menustring, self._true_eid(3),
+            gui_utils.render_menu_string(
+                'Component',
+                self._component_index
+                ), self._true_eid(3),
             int(self.x + self.width*0.5), # X
             self.y + (self.height-40), # Y
             int(round(self.width*0.5)), # Width
