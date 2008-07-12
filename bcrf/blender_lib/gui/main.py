@@ -8,7 +8,7 @@ import bcrf.bcrf_lib.guide.character
 import bcrf.blender_lib.object
 import bcrf.blender_lib.scene
 import bcrf.blender_lib.gui.base
-
+import bcrf.components
 
 class MainContainer(bcrf.blender_lib.gui.base.TabContainer):
     ''''''
@@ -30,12 +30,45 @@ class CreateComponentTabContent(bcrf.blender_lib.gui.base.TabContent):
         '''Initialize the L{self._gui_event_switch}
         '''
         super(CreateComponentTabContent, self).__init__(*args, **kw_args)
+        
+        self.generate_components_list()
+    
+    def create_component_event(self, event_id, value):
+        '''
+        '''
+        print 'Creating Compoent "%s" from category "%s".' % (
+            bcrf.components.index[self._buttons['component'].val],
+            bcrf.components.index[self._buttons['category'].val],
+        )
+    
+    def category_changed_event(self, event_id, value):
+        '''
+        '''
+        self.generate_components_list()
+        #self._buttons['component'].name = 'Blah%t|Grr%x1'
+        Blender.Redraw()
+    
+    def generate_components_list(self):
+        '''
+        '''
+        category = bcrf.components.index[0]
+        module = __import__(
+            'bcrf.components.%s' % category,
+            None, None,
+            ['notemptyhack']
+        )
+        import string
+        import random
+        self._component_index = [
+            string.uppercase[random.randint(0,len(string.uppercase)-1)],
+            string.uppercase[random.randint(0,len(string.uppercase)-1)],
+            string.uppercase[random.randint(0,len(string.uppercase)-1)],
+        ]
     
     def draw(self):
         '''
         '''
         super(CreateComponentTabContent, self).draw()
-        
         # Component Base Name
         self._buttons['comp_base_name'] = Blender.Draw.String(
             'Component Name: ',
@@ -45,7 +78,7 @@ class CreateComponentTabContent(bcrf.blender_lib.gui.base.TabContent):
             int(round(self.width*0.65)), 20, # Width, Height
             'bcrf_comp', # Default
             10, # Max Char Length
-            'This will be used as a prefix for the objects created.'# Tooltip
+            'This will be used as a prefix for the objects created.' # Tooltip
         )
         
         # Create/Load
@@ -54,40 +87,38 @@ class CreateComponentTabContent(bcrf.blender_lib.gui.base.TabContent):
             int(self.x + self.width*0.65), # X + the width of the above string.
             self.y + (self.height-20), # Y
             int(round(self.width*0.35)), # Width
-            20 # Height
+            20, # Height
+            '', # Tool Tip
+            self.create_component_event # Callback
         )
         
         # Create a GUI Utilities object.
         gui_utils = bcrf.blender_lib.gui.base.GUIUtilities()
         
         # Component Category
-        Blender.Draw.Menu(
+        self._buttons['category'] = Blender.Draw.Menu(
             gui_utils.render_menu_string(
                 'Category',
-                [
-                    'TestA',
-                    'TestB',
-                    'TestC',
-                ]
-                ), self._true_eid(1),
+                bcrf.components.index
+                ), self._true_eid(2),
             int(self.x), # X
             self.y + (self.height-40), # Y
             int(round(self.width*0.5)), # Width
             20, # Height
             0, # The Default Index
-            '' # Tooltip
+            '', # Tooltip
+            self.category_changed_event # Callback
         )
         
-        # Component
-        Blender.Draw.Menu(
-            gui_utils.render_menu_string(
+        menustring = gui_utils.render_menu_string(
                 'Component',
-                [
-                    'TestA',
-                    'TestB',
-                    'TestC',
-                ]
-                ), self._true_eid(1),
+                self._component_index
+        )
+        
+        print 'Drawing Menu "%s"' % menustring
+        # Component
+        self._buttons['component'] = Blender.Draw.Menu(
+            menustring, self._true_eid(3),
             int(self.x + self.width*0.5), # X
             self.y + (self.height-40), # Y
             int(round(self.width*0.5)), # Width
@@ -95,7 +126,6 @@ class CreateComponentTabContent(bcrf.blender_lib.gui.base.TabContent):
             0, # The Default Index
             '' # Tooltip
         )
-        
 
 class ModifyComponentTabContent(bcrf.blender_lib.gui.base.TabContent):
     ''''''

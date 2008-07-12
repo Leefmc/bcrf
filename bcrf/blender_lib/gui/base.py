@@ -1,6 +1,7 @@
 ''''''
 
 # standard
+import copy
 # related
 import Blender.Draw
 # local
@@ -201,6 +202,9 @@ class GUIUtilities(object):
         @param title: The title of the menu.
         @param menu_items: A list of strings representing the menu item titles.
         '''
+        # Copy menu items, so we do not modify a reference, if given.
+        menu_items = copy.copy(menu_items)
+        
         for index in range(len(menu_items)):
             menu_items[index] += ' %x' + str(index)
         menu_items.insert(0, title + ' %t')

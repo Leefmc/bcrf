@@ -21,3 +21,7 @@ rig modules so that a user has an easy time finding the module they need.
 # related
 # local
 
+
+index = [
+    'Arms'
+]
