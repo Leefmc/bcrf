@@ -3,6 +3,7 @@
 # standard
 # related
 import Blender
+import Blender.Draw
 # local
 import bcrf.blender_lib.gui.main as bcrf_gui
 
@@ -20,3 +21,7 @@ gui.add_tab(mod_comp_tab)
 gui.add_tab(xml_tab)
 
 gui.register()
+
+# Calling Redraw right away seems to be solving many GUI glitches i was finding.
+# If this is not true for someone else, please let me (Leefmc) know.
+Blender.Draw.Redraw()

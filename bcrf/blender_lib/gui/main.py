@@ -72,6 +72,12 @@ class CreateComponentTabContent(bcrf.blender_lib.gui.base.TabContent):
         '''
         '''
         super(CreateComponentTabContent, self).draw()
+        
+        # Check if the value exists, otherwise use a default:
+        if self._buttons.has_key('comp_base_name'):
+            button_value = self._buttons['comp_base_name'].val
+        else:
+            button_value = 'bcrf_comp'
         # Component Base Name
         self._buttons['comp_base_name'] = Blender.Draw.String(
             'Component Name: ',
@@ -79,7 +85,7 @@ class CreateComponentTabContent(bcrf.blender_lib.gui.base.TabContent):
             self.x, # X
             self.y + (self.height-20), # Y
             int(round(self.width*0.65)), 20, # Width, Height
-            'bcrf_comp', # Default
+            button_value, # Default
             10, # Max Char Length
             'This will be used as a prefix for the objects created.' # Tooltip
         )
@@ -98,6 +104,11 @@ class CreateComponentTabContent(bcrf.blender_lib.gui.base.TabContent):
         # Create a GUI Utilities object.
         gui_utils = bcrf.blender_lib.gui.base.GUIUtilities()
         
+        # Check if the value exists, otherwise use a default:
+        if self._buttons.has_key('category'):
+            button_value = self._buttons['category'].val
+        else:
+            button_value = 0
         # Component Category
         self._buttons['category'] = Blender.Draw.Menu(
             gui_utils.render_menu_string(
@@ -108,11 +119,16 @@ class CreateComponentTabContent(bcrf.blender_lib.gui.base.TabContent):
             self.y + (self.height-40), # Y
             int(round(self.width*0.5)), # Width
             20, # Height
-            0, # The Default Index
+            button_value, # The Default Index
             '', # Tooltip
             self.category_changed_event # Callback
         )
         
+        # Check if the value exists, otherwise use a default:
+        if self._buttons.has_key('component'):
+            button_value = self._buttons['component'].val
+        else:
+            button_value = 0
         # Component
         self._buttons['component'] = Blender.Draw.Menu(
             gui_utils.render_menu_string(
@@ -180,6 +196,11 @@ class GuideTabContent(bcrf.blender_lib.gui.base.TabContent):
         '''
         super(GuideTabContent, self).draw()
         
+        # Check if the value exists, otherwise use a default:
+        if self._buttons.has_key('guide_name'):
+            button_value = self._buttons['guide_name'].val
+        else:
+            button_value = 'bcrf_guide'
         # Guide Name
         self._buttons['guide_name'] = Blender.Draw.String(
             'Guide Name: ',
@@ -187,7 +208,7 @@ class GuideTabContent(bcrf.blender_lib.gui.base.TabContent):
             self.x, # X
             self.y + (self.height-20), # Y
             int(round(self.width*0.65)), 20, # Width, Height
-            'bcrf_guide', # Default
+            button_value, # Default
             10, # Max Char Length
             'Enter the name for the Guide you want to Create or Load.'# Tooltip
         )
